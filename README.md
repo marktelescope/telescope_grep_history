@@ -1,9 +1,5 @@
 # telescope_grep_history
 
-# DEAR GITHUB USER
-# DO NOT USE THIS PLUGIN
-# I AM STILL TESTING THE INITIAL VERSION
-
 A simple Neovim plugin providing persistent, project-aware history for Telescope's content grep pickers (`live_grep`, `grep_string`), allowing you to quickly cycle through previous searches using `<Tab>`. Avoid retyping common or complex search terms!
 
 ## Features
