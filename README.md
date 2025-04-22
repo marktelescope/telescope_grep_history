@@ -26,7 +26,7 @@ Use your preferred plugin manager.
 
 ```lua
 return {
-  "markb321b/telescope_grep_history",
+  "marktelescope/telescope_grep_history",
   -- Optional: Add dependencies if this plugin had any *direct* ones
   -- dependencies = { "nvim-lua/plenary.nvim" }, -- Example if needed, but plenary is likely via telescope
 }
@@ -38,7 +38,7 @@ return {
 
 ```lua
 use {
-  'markb321b/telescope_grep_history',
+  'marktelescope/telescope_grep_history',
   requires = { 'nvim-telescope/telescope.nvim' } -- Ensure Telescope is available
 }
 ```
@@ -61,7 +61,7 @@ return {
   -- tag = '0.1.x',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'markb321b/telescope_grep_history', -- <<< STEP 1: Add as dependency
+    'marktelescope/telescope_grep_history', -- <<< STEP 1: Add as dependency
     -- Your other Telescope dependencies...
   },
   config = function()
