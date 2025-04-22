@@ -137,12 +137,16 @@ local function create_attach_mappings()
 	local function grep_history_attach_mappings(prompt_bufnr, map)
 		vim.b[prompt_bufnr].history_index = -1
 
-		map("i", "<CR>", function()
+		local function save_current_prompt()
 			local picker = state.get_current_picker(prompt_bufnr)
 			local current_query = picker and picker:_get_prompt() or ""
-			if current_query ~= "" then
+			if vim.trim(current_query) ~= "" then
 				history.add_entry(current_query)
 			end
+		end
+
+		map("i", "<CR>", function()
+			save_current_prompt()
 			vim.b[prompt_bufnr].history_index = -1
 			actions.select_default(prompt_bufnr)
 			return true
@@ -151,6 +155,8 @@ local function create_attach_mappings()
 		map("i", "<Up>", function()
 			local current_bufnr = vim.api.nvim_get_current_buf()
 			if current_bufnr == prompt_bufnr then
+				save_current_prompt()
+				vim.b[prompt_bufnr].history_index = -1
 				pcall(actions.move_selection_previous, prompt_bufnr)
 				vim.cmd("stopinsert")
 				return true
@@ -162,6 +168,8 @@ local function create_attach_mappings()
 		map("i", "<Down>", function()
 			local current_bufnr = vim.api.nvim_get_current_buf()
 			if current_bufnr == prompt_bufnr then
+				save_current_prompt()
+				vim.b[prompt_bufnr].history_index = -1
 				pcall(actions.move_selection_next, prompt_bufnr)
 				vim.cmd("stopinsert")
 				return true
