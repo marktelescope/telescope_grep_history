@@ -138,14 +138,7 @@ This plugin requires manually adding `attach_mappings = grep_history.attach_mapp
 
 ## Troubleshooting
 
-*   **History Not Saving/Loading:**
-    *   **Most Common:** Ensure you added `attach_mappings = grep_history.attach_mappings` to BOTH `live_grep` and `grep_string` in your `telescope.setup`.
-    *   Ensure `telescope_grep_history` is loaded *before* or alongside `telescope.nvim` in your plugin manager configuration.
-    *   Check Neovim's `:messages` for errors related to `telescope_grep_history`.
-    *   Verify file permissions for the `history_dir` (usually `~/.local/share/nvim/telescope_grep_history/`). Neovim needs write access to create the directory and files.
-    *   If you previously used a different name for this plugin or its `history_dir`, ensure you removed any old data directories to avoid confusion.
-*   **Wrong History Scope:** Double-check the `history_scope` setting in your `setup` call. If set to `"project"`, ensure your project has one of the `project_markers` files/directories in its root or parent directories.
-*   **`<Tab>` Conflicts:** Check if other plugins are mapping `<Tab>` in Telescope's insert mode, which might interfere.
+*   **TBD**
 
 ## License
 
