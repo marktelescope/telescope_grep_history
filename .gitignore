@@ -1,0 +1,33 @@
+# Lua
+*.luac
+*.lua~
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Dependency directories
+# Ignore Vim plugin manager directories if present at root
+/pack/
+/vim-plug/
+# --> Ignore the specific test dependency directory <--
+/tests/site/
+
+# Coverage Reports (luacov)
+luacov.stats.out
+luacov.report.html
+luacov-html/
+
+# Build artifacts (less common for simple plugins)
+_build/
+dist/
+
+# Local config (example, adjust if needed)
+.nvimrc
+.exrc
+.vimrc.local
+
+# Add other specific files/dirs if needed
+
