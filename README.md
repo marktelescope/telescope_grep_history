@@ -10,6 +10,8 @@ A simple Neovim plugin providing persistent, project-aware history for Telescope
 *   Configurable limit on the number of history entries stored.
 *   Automatically saves the current search query when confirming a search (when you press via <CR> in the picker).
 
+![](tgh.gif)
+
 ## Requirements
 
 *   Neovim >= 0.7.0 (Recommended: Latest stable)
