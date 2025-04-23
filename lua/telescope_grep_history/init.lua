@@ -208,6 +208,7 @@ local function create_attach_mappings()
 				local entry = history.history[next_index + 1]
 				if entry then
 					picker:set_prompt(entry)
+					picker:refresh()
 				end
 				return true
 			else
