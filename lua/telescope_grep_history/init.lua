@@ -154,6 +154,9 @@ local function create_attach_mappings()
 			save_current_prompt(true)
 			vim.b[prompt_bufnr].history_index = -1
 			actions.select_default(prompt_bufnr)
+			vim.schedule(function()
+				vim.fn.setreg("/", vim.fn.getreg("/"))
+			end)
 			return true
 		end)
 
