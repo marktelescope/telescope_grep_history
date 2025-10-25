@@ -1,3 +1,4 @@
+-- lua/telescope_grep_history/init.lua
 local history = require("telescope_grep_history.history")
 local Path
 
@@ -137,16 +138,20 @@ local function create_attach_mappings()
 	local function grep_history_attach_mappings(prompt_bufnr, map)
 		vim.b[prompt_bufnr].history_index = -1
 
-		local function save_current_prompt()
+		local function save_current_prompt(set_search_register)
 			local picker = state.get_current_picker(prompt_bufnr)
 			local current_query = picker and picker:_get_prompt() or ""
 			if vim.trim(current_query) ~= "" then
 				history.add_entry(current_query)
+				if set_search_register then
+					-- Set Vim's search register for n/N navigation
+					vim.fn.setreg("/", vim.trim(current_query))
+				end
 			end
 		end
 
 		map("i", "<CR>", function()
-			save_current_prompt()
+			save_current_prompt(true)
 			vim.b[prompt_bufnr].history_index = -1
 			actions.select_default(prompt_bufnr)
 			return true
@@ -155,7 +160,7 @@ local function create_attach_mappings()
 		map("i", "<Up>", function()
 			local current_bufnr = vim.api.nvim_get_current_buf()
 			if current_bufnr == prompt_bufnr then
-				save_current_prompt()
+				save_current_prompt(false)
 				vim.b[prompt_bufnr].history_index = -1
 				pcall(actions.move_selection_previous, prompt_bufnr)
 				vim.cmd("stopinsert")
@@ -168,7 +173,7 @@ local function create_attach_mappings()
 		map("i", "<Down>", function()
 			local current_bufnr = vim.api.nvim_get_current_buf()
 			if current_bufnr == prompt_bufnr then
-				save_current_prompt()
+				save_current_prompt(false)
 				vim.b[prompt_bufnr].history_index = -1
 				pcall(actions.move_selection_next, prompt_bufnr)
 				vim.cmd("stopinsert")
