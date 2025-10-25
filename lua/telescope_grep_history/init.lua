@@ -155,7 +155,10 @@ local function create_attach_mappings()
 			vim.b[prompt_bufnr].history_index = -1
 			actions.select_default(prompt_bufnr)
 			vim.schedule(function()
-				vim.fn.setreg("/", vim.fn.getreg("/"))
+				local search_term = vim.fn.getreg("/")
+				if search_term ~= "" then
+					vim.fn.search(search_term, "w")
+				end
 			end)
 			return true
 		end)
