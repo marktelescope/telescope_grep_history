@@ -151,7 +151,12 @@ local function create_attach_mappings()
 		map("i", "<CR>", function()
 			save_current_prompt(true)
 			vim.b[prompt_bufnr].history_index = -1
-			actions.select_default(prompt_bufnr)
+			local entry = state.get_selected_entry(prompt_bufnr)
+			if entry then
+				actions.select_default(prompt_bufnr)
+			else
+				actions.close(prompt_bufnr)
+			end
 			return true
 		end)
 
