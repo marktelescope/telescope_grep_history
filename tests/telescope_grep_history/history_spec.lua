@@ -124,6 +124,35 @@ describe("History Module (Real FileSystem Interaction)", function()
 	end)
 
 	-----------------------------------------------------
+	-- Word Boundary Stripping Tests (\b / Ctrl-H)
+	-----------------------------------------------------
+	it("should strip literal \\b word boundary anchors from added entries", function()
+		history_module.add_entry("\\bmy_word\\b")
+		assert.are.same({ "my_word" }, history_module.history)
+	end)
+
+	it("should strip backspace byte (0x08) word boundary anchors from added entries", function()
+		history_module.add_entry("\bmy_word\b")
+		assert.are.same({ "my_word" }, history_module.history)
+	end)
+
+	it("should not strip \\b from the middle of an entry", function()
+		history_module.add_entry("foo\\bbar")
+		assert.are.same({ "foo\\bbar" }, history_module.history)
+	end)
+
+	it("should strip \\b anchors from entries when loading from file", function()
+		-- Write a file with \\b-contaminated entries (newest first in file)
+		local setup_ok = write_history_file_for_test(test_file_path_1, { "clean_entry", "\\bdirty_entry\\b" })
+		assert.is_true(setup_ok)
+
+		history_module.history = {}
+		history_module.load_history_from(test_file_path_1)
+
+		assert.are.same({ "clean_entry", "dirty_entry" }, history_module.history)
+	end)
+
+	-----------------------------------------------------
 	-- Duplicate Handling Tests
 	-----------------------------------------------------
 	it("should remove existing duplicate and add new one to the end", function()
