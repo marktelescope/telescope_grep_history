@@ -58,10 +58,7 @@ local function find_project_root(start_dir)
 			else
 				marker_path = current_dir .. "/" .. marker
 				if vim.fn.filereadable(marker_path) == 1 or vim.fn.isdirectory(marker_path) == 1 then
-					local return_path = vim.fs.normalize(current_dir)
-
-					vim.notify("[GH_DEBUG find_project_root] RETURNING (Fallback): " .. vim.inspect(return_path))
-					return return_path
+					return vim.fs.normalize(current_dir)
 				end
 			end
 		end

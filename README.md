@@ -5,7 +5,7 @@ A simple Neovim plugin providing persistent, project-aware history for Telescope
 ## Features
 
 *   Remembers previous searches from Telescope's `live_grep` and `grep_string` pickers.
-*   Cycle through history  backwards using `<Tab>` in the Telescope prompt (Oldest -> Newest -> Wrap).
+*   Cycle through history using `<Tab>` in the Telescope prompt (most recent first, then backwards through older entries, wrapping around).
 *   Either **Project Scope:** to automatically keep separate history lists for different projects **or Global Scope:** to use a single shared history list across all projects (configurable either way).
 *   Configurable limit on the number of history entries stored.
 *   Automatically saves the current search query when confirming a search (when you press via <CR> in the picker).
