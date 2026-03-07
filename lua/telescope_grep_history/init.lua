@@ -58,7 +58,10 @@ local function find_project_root(start_dir)
 			else
 				marker_path = current_dir .. "/" .. marker
 				if vim.fn.filereadable(marker_path) == 1 or vim.fn.isdirectory(marker_path) == 1 then
-					return vim.fs.normalize(current_dir)
+					local return_path = vim.fs.normalize(current_dir)
+
+					vim.notify("[GH_DEBUG find_project_root] RETURNING (Fallback): " .. vim.inspect(return_path))
+					return return_path
 				end
 			end
 		end
@@ -133,7 +136,6 @@ local function create_attach_mappings()
 	local state = require("telescope.actions.state")
 
 	local function grep_history_attach_mappings(prompt_bufnr, map)
-		-- Sentinel: -1 means "not currently cycling through history"
 		vim.b[prompt_bufnr].history_index = -1
 
 		local function save_current_prompt(set_search_register)
@@ -151,12 +153,7 @@ local function create_attach_mappings()
 		map("i", "<CR>", function()
 			save_current_prompt(true)
 			vim.b[prompt_bufnr].history_index = -1
-			local entry = state.get_selected_entry(prompt_bufnr)
-			if entry then
-				actions.select_default(prompt_bufnr)
-			else
-				actions.close(prompt_bufnr)
-			end
+			actions.select_default(prompt_bufnr)
 			return true
 		end)
 
@@ -199,22 +196,21 @@ local function create_attach_mappings()
 					return true
 				end
 
-				-- history_index is 1-based into M.history (oldest=1, newest=#history),
-				-- or -1 when not cycling. Tab starts at the newest and goes backward.
 				local current_index = vim.b[prompt_bufnr].history_index
 				local next_index
 
 				if current_index == -1 then
-					next_index = num_history
+					next_index = num_history - 1
 				else
 					next_index = current_index - 1
-					if next_index < 1 then
-						next_index = num_history
-					end
+				end
+
+				if next_index < 0 then
+					next_index = num_history - 1
 				end
 
 				vim.b[prompt_bufnr].history_index = next_index
-				local entry = history.history[next_index]
+				local entry = history.history[next_index + 1]
 				if entry then
 					picker:set_prompt(entry)
 					picker:refresh()

@@ -67,8 +67,6 @@ local function write_file(path, lines)
 		return
 	end
 
-	-- M.history is oldest-at-index-1, newest-at-end.
-	-- Write in reverse so the file stores newest-first (human-readable order).
 	for i = #lines, 1, -1 do
 		file:write(lines[i] .. "\n")
 	end
@@ -80,8 +78,6 @@ function M.load_history_from(path)
 		M.history = {}
 		return
 	end
-	-- File stores newest-first for human readability.
-	-- Reverse into M.history so oldest is at index 1, newest at end.
 	local file_content = read_file(path)
 	local reversed_history = {}
 	for i = #file_content, 1, -1 do
