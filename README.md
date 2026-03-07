@@ -100,7 +100,12 @@ return {
 
     -- Your Telescope keymaps remain unchanged (these are just examples of what you might have)
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch [G]rep' })
-    vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch [W]ord' })
+    -- Recommended: use word_match = "-w" to avoid \b anchors rendering as
+    -- Ctrl-H characters in the prompt. This delegates word boundary matching
+    -- to rg's --word-regexp flag instead.
+    vim.keymap.set('n', '<leader>sw', function()
+      builtin.grep_string({ word_match = "-w" })
+    end, { desc = '[S]earch [W]ord' })
     -- Other keymaps...
   end,
 }

@@ -73,16 +73,6 @@ local function write_file(path, lines)
 	file:close()
 end
 
--- Strip \b word-boundary anchors that telescope's grep_string injects.
--- They render as Ctrl-H in recent telescope versions and pollute history.
-local function strip_word_boundaries(str)
-	-- Literal two-char sequence \b (backslash + b)
-	str = str:gsub("^\\b", ""):gsub("\\b$", "")
-	-- Backspace byte (0x08)
-	str = str:gsub("^\b", ""):gsub("\b$", "")
-	return str
-end
-
 function M.load_history_from(path)
 	if not path then
 		M.history = {}
@@ -91,10 +81,7 @@ function M.load_history_from(path)
 	local file_content = read_file(path)
 	local reversed_history = {}
 	for i = #file_content, 1, -1 do
-		local entry = strip_word_boundaries(file_content[i])
-		if entry ~= "" then
-			table.insert(reversed_history, entry)
-		end
+		table.insert(reversed_history, file_content[i])
 	end
 	M.history = reversed_history
 	while #M.history > config.history_limit do
@@ -118,7 +105,6 @@ end
 
 function M.add_entry(query)
 	query = vim.trim(query)
-	query = strip_word_boundaries(query)
 	if query == "" then
 		return
 	end
